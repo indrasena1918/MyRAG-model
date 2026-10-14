@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <title>Wayfarer | Local Travel Planner</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">W</span><span>wayfarer<small>YOUR LOCAL TRAVEL COMPANION</small></span></a>
+    <nav aria-label="Main navigation"><button class="nav-link active" data-view="planner">Plan a trip</button><button class="nav-link" data-view="saved">Saved trips <span id="saved-count">0</span></button></nav>
+    <div class="model-select"><span class="status-dot"></span><label for="model-select">Local model</label><select id="model-select"><option value="qwen2.5:3b">Qwen 2.5 · 3B</option><option value="llama3.2:latest">Llama 3.2</option></select></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow">THOUGHTFUL TRAVEL, MADE PERSONAL</div><h1>Your next story<br>starts <em>somewhere.</em></h1><p>Plan meaningful trips with help from your own travel guides and a private, local AI.</p><div class="hero-status"><span id="health-dot" class="status-dot"></span><span id="health-label">Checking your local assistant…</span></div></div>
+      <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div><div class="art-label">A little further<br>than yesterday <span>↗</span></div></div>
+    </section>
+    <section id="planner-view">
+      <div class="section-heading"><div><div class="eyebrow">LET'S MAKE A PLAN</div><h2>Where to next?</h2></div><span class="privacy-pill">✳ Everything stays on your device</span></div>
+      <div class="workspace">
+        <div class="panel itinerary-panel">
+          <div class="panel-title"><span class="step">01</span><div><h3>Your trip, your way</h3><p>A few details help us make it yours.</p></div></div>
+          <form id="itinerary-form">
+            <div class="form-row"><label>Starting from<input name="starting_city" required value="Bengaluru" placeholder="e.g. Bengaluru"></label><label>Going to<input name="destination" required placeholder="e.g. Kerala"></label></div>
+            <div class="form-row"><label>Arrive<input name="start_date" type="date" required></label><label>Leave<input name="end_date" type="date" required></label></div>
+            <div class="form-row"><label>Travelers<input name="travelers" type="number" min="1" max="30" value="2" required></label><label>Trip budget (₹)<input name="budget_inr" type="number" min="1" value="20000" required></label></div>
+            <fieldset><legend>What are you into?</legend><div class="interest-list"><label><input type="checkbox" name="interests" value="nature" checked><span>🌿 Nature</span></label><label><input type="checkbox" name="interests" value="adventure"><span>🧗 Adventure</span></label><label><input type="checkbox" name="interests" value="history"><span>🏛 History</span></label><label><input type="checkbox" name="interests" value="temples"><span>🛕 Temples</span></label><label><input type="checkbox" name="interests" value="beaches"><span>🏖 Beaches</span></label><label><input type="checkbox" name="interests" value="food"><span>🍲 Food</span></label><label><input type="checkbox" name="interests" value="shopping"><span>🛍 Shopping</span></label></div></fieldset>
+            <div class="form-row"><label>Getting around<select name="travel_preference"><option>bus</option><option>train</option><option>car</option><option>flight</option></select></label><label>Accommodation<input name="accommodation_preference" value="Comfortable, budget-friendly stay" required></label></div>
+            <div class="form-row"><label>Travel pace<select name="pace"><option>moderate</option><option>relaxed</option><option>packed</option></select></label><label>Dietary / accessibility needs<input name="requirements" placeholder="Optional"></label></div>
+            <button class="primary-button" type="submit">Create my itinerary <span>↗</span></button>
+          </form>
+        </div>
+        <div class="panel chat-panel">
+          <div class="panel-title"><span class="step">02</span><div><h3>Ask a local-minded guide</h3><p>Answers grounded in your uploaded guides.</p></div></div>
+          <div id="chat-messages" class="chat-messages"><div class="assistant-message"><span class="avatar">W</span><div><p>Hi there! Ask me about places in your travel guides, or tell me what kind of trip you're dreaming about.</p><small>YOUR WAYFARER GUIDE</small></div></div></div>
+          <form id="chat-form" class="chat-form"><textarea id="question" rows="2" placeholder="Ask about a destination, trip, or travel tip…" required></textarea><button class="send-button" aria-label="Send question">↑</button></form>
+          <div class="suggestions"><button data-question="What historic places can I visit in Hyderabad?">Hyderabad history</button><button data-question="Plan a nature-focused trip to Kerala.">Kerala nature</button></div>
+          <details class="upload-box"><summary><span>＋</span> Add your own travel guides <small>PDF, TXT, Markdown · max 15 MB each</small></summary><form id="upload-form"><input type="file" name="files" accept=".pdf,.txt,.md,.markdown" multiple required><input name="destination" placeholder="Destination (optional)"><button class="secondary-button">Upload & index</button></form><div id="upload-status" class="inline-status"></div></details>
+        </div>
+      </div>
+      <section id="itinerary-result" class="result-section" hidden></section>
+    </section>
+    <section id="saved-view" hidden><div class="section-heading"><div><div class="eyebrow">YOUR TRAVEL NOTEBOOK</div><h2>Saved trips</h2></div><button id="back-to-planner" class="secondary-button">← Plan a trip</button></div><div id="saved-trips" class="saved-grid"></div></section>
+    <section id="sources-panel" class="sources-panel"><div><div class="eyebrow">YOUR REFERENCE SHELF</div><h3>Travel documents</h3><p>Answers use indexed information when available. Current prices and schedules always need verification.</p></div><div id="destination-chips" class="destination-chips">Loading your destinations…</div></section>
+    <footer><span>Wayfarer · Private by design</span><span>Runs locally with Ollama · No paid APIs</span></footer>
+  </main>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
